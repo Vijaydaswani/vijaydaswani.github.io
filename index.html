@@ -1,260 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vijay Daswani — 3D Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #050816 0, #02020a 45%, #000000 100%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #ffffff;
+    }
 
-  <head>
+    #canvas-container {
+      position: fixed;
+      inset: 0;
+    }
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    .overlay-header {
+      position: fixed;
+      top: 12px;
+      left: 16px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      font-size: 13px;
+      line-height: 1.4;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
 
-    <title>Vijay Daswani</title>
+    .overlay-header .name {
+      font-weight: 700;
+      font-size: 15px;
+    }
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    .overlay-header .title {
+      opacity: 0.8;
+    }
 
-    <!-- Custom fonts for this template -->
-    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    .social-links {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+    }
 
-    <!-- Custom styles for this template -->
-    <link href="css/resume.min.css" rel="stylesheet">
+    .social-links a {
+      color: #9cd1ff;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(156, 209, 255, 0.3);
+      transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
 
-  </head>
+    .social-links a:hover {
+      background: #9cd1ff;
+      color: #020617;
+      transform: translateY(-1px);
+    }
 
-  <body id="page-top">
+    .hint {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      font-size: 11px;
+      opacity: 0.7;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">
-        <span class="d-block d-lg-none">Vijay Daswani</span>
-        <span class="d-none d-lg-block">
-          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.jpg" alt="">
-        </span>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#education">Education</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#awards">Awards</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    @media (max-width: 600px) {
+      .overlay-header {
+        max-width: calc(100% - 32px);
+      }
+      .hint {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas-container"></div>
 
-    <div class="container-fluid p-0">
+  <!-- Top-left info -->
+  <div class="overlay-header">
+    <div class="name">Vijay Daswani</div>
+    <div class="title">Cloud Architect • Lead DevSecOps Engineer • SRE Lead</div>
+    <div class="title">Dubai, UAE · vijay.daswani@gmail.com · +971 50 993 0472</div>
+  </div>
 
-      <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
-        <div class="my-auto">
-          <h1 class="mb-0">Vijay
-            <span class="text-primary">Daswani</span>
-          </h1>
-          <div class="subheading mb-5">401 Noble Residency, Gachibowli Hyderabad 500032 · +91 8827315020 ·
-            <a href="mailto:vijay.daswani@gmail.com">vijay.daswani@gmail.com</a>
-          </div>
-          <p class="lead mb-5">
-<ul>
+  <!-- Bottom center social links -->
+  <div class="social-links">
+    <a href="https://www.instagram.com/build.automate.io" target="_blank" rel="noopener noreferrer">
+      Instagram · build.automate.io
+    </a>
+    <a href="https://youtube.com/@build_automate" target="_blank" rel="noopener noreferrer">
+      YouTube · Build &amp; Automate
+    </a>
+    <a href="https://www.linkedin.com/in/vijaydaswani11" target="_blank" rel="noopener noreferrer">
+      LinkedIn · vijaydaswani11
+    </a>
+  </div>
 
-<li>Having an experience in IT profession with extensive knowledge in AWS services.</li>
-<li>Hands on experience in building micro-services based REST API.</li>
-<li>Hands on experience on Docker, Docker-compose, Kubernetes.</li>
-<li>Hands on experience & understanding of Serverless Architecture</li>
-</p>
-          <div class="social-icons">
-            <a href="https://www.linkedin.com/in/vijaydaswani11/">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="https://github.com/vijaydaswani">
-              <i class="fab fa-github"></i>
-            </a>
-            <a href="https://twitter.com/Vijaydaswani1">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://www.facebook.com/dhruv.viju">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-          </div>
-        </div>
-      </section>
+  <div class="hint">Drag to rotate · Scroll to zoom · Click panels to focus</div>
 
-      <hr class="m-0">
+  <script type="module">
+import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
-        <div class="my-auto">
-          <h2 class="mb-5">Experience</h2>
+    const container = document.getElementById('canvas-container');
 
-          <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto">
-              <h3 class="mb-0">Associate Software Engineer</h3>
-              <div class="subheading mb-3">Virtusa Consulting Services Pvt. Ltd</div>
-              <p>Working as a Backend Developer in Application Development commitment.
-Managed an application built in Angular, Java Springboot & MongoDB. This project shows us the consolidated information of various DevOps tools like: (Jira, Git, SVN, Jenkins, Sonarqube, Udeploy, xldeploy, arctifactory etc.)
-This dashboard simplify the ability to view CI/CD pipelines in near real-time. The dashboard enable DevOps engineers and executives to monitor the health of code commit to deployment in final production. Between those two points – inception (commit) to completion (prod) – the dashboard also provide crucial information about the overall vitality and performance metrics of your software operations.
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x020617, 8, 20);
 
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+    camera.position.set(0, 2.2, 9);
 
-Other Responsibilities at Virtusa:
-<ul>
-<li>Contributed to Practice in Presales when required.</li>
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    container.appendChild(renderer.domElement);
 
-<li>Developed the Micro services platform Architecture</li>
-<li>Responsible for writing terraform modules to automate end-to-end infrastructure</li>
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.minDistance = 4;
+    controls.maxDistance = 16;
+    controls.target.set(0, 1.5, 0);
 
-<li>Documenting all the actions and getting the approval from the respective authorities.</li>
-</ul>
-</p>
-            </div>
-            <div class="resume-date text-md-right">
-              <span class="text-primary">Nov 17 - Present</span>
-            </div>
-          </div>
+    // Lights
+    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambient);
 
-        </div>
+    const keyLight = new THREE.DirectionalLight(0x9cd1ff, 1.0);
+    keyLight.position.set(3, 6, 4);
+    scene.add(keyLight);
 
-      </section>
+    const rimLight = new THREE.PointLight(0x00ffff, 0.8, 25);
+    rimLight.position.set(-4, 3, -3);
+    scene.add(rimLight);
 
-      <hr class="m-0">
+    // Subtle starfield background
+    const starGeo = new THREE.BufferGeometry();
+    const starCount = 400;
+    const positions = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount * 3; i += 3) {
+      positions[i] = (Math.random() - 0.5) * 40;
+      positions[i + 1] = Math.random() * 20;
+      positions[i + 2] = (Math.random() - 0.5) * 40;
+    }
+    starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const starMat = new THREE.PointsMaterial({ size: 0.05, color: 0x5ee7ff });
+    const stars = new THREE.Points(starGeo, starMat);
+    scene.add(stars);
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
-        <div class="my-auto">
-          <h2 class="mb-5">Education</h2>
+    // Helper to create text panels with canvas
+    function createTextPanel({ title, lines, width = 700, height = 900, color = '#0f172a' }) {
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
 
-          <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto">
-              <h3 class="mb-0">Mahakal Institute of Technoloy</h3>
-              <div class="subheading mb-3">Bachelor of Engineering</div>
-              <div>Computer Science</div>
-            </div>
-            <div class="resume-date text-md-right">
-              <span class="text-primary">August 2013 - May 2017</span>
-            </div>
-          </div>
+      // Background
+      const gradient = ctx.createLinearGradient(0, 0, width, height);
+      gradient.addColorStop(0, color);
+      gradient.addColorStop(1, '#020617');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
 
-        </div>
-      </section>
+      // Border
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.5)';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(14, 14, width - 28, height - 28);
 
-      <hr class="m-0">
+      // Title
+      ctx.fillStyle = '#e5f2ff';
+      ctx.font = 'bold 42px system-ui';
+      ctx.textBaseline = 'top';
+      ctx.fillText(title, 38, 32);
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
-        <div class="my-auto">
-          <h2 class="mb-5">Skills</h2>
+      // Divider
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.7)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(32, 88);
+      ctx.lineTo(width - 32, 88);
+      ctx.stroke();
 
-          <div class="subheading mb-3">Programming Languages &amp; Tools</div>
-          <ul class="list-inline dev-icons">
-            <li class="list-inline-item">
-              <i class="fab fa-java"></i>
-            </li>
-			
-            <li class="list-inline-item">
-              <i class="fab fa-docker"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="fab fa-angular"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="fab fa-python"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="fab fa-node-js"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="fab fa-aws"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="fab fa-kubernetes"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="fab fa-jenkins"></i>
-            </li>
-			
-            <li class="list-inline-item">
-              <i class="fab fa-npm"></i>
-            </li>
-          <li class="list-inline-item">
-              <i class="fab fa-html5"></i>
-            </li>
-		  
-            <li class="list-inline-item">
-              <i class="fab fa-css3-alt"></i>
-            </li>
-		  </ul>
+      // Body text
+      ctx.font = '26px system-ui';
+      ctx.fillStyle = '#e2e8f0';
 
-          <div class="subheading mb-3">Core Competencies</div>
-          <ul class="fa-ul mb-0">
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              AWS Cloud</li>
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              RESTful API Design</li>
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Web Application Development</li>
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Infrastructure as code</li>
-			<li>
-              <i class="fa-li fa fa-check"></i>
-              DevOps</li>
-			    
-          </ul>
-        </div>
-      </section>
+      const maxWidth = width - 64;
+      let y = 110;
+      const lineHeight = 32;
 
-      <hr class="m-0">
+      function wrapAndDraw(text) {
+        const words = text.split(' ');
+        let line = '';
+        for (let n = 0; n < words.length; n++) {
+          const testLine = line + words[n] + ' ';
+          const metrics = ctx.measureText(testLine);
+          if (metrics.width > maxWidth && n > 0) {
+            ctx.fillText(line, 32, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        ctx.fillText(line, 32, y);
+        y += lineHeight;
+      }
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="interests">
-        <div class="my-auto">
-          <h2 class="mb-5">Interests</h2>
-          <p>Apart from IT Profession, I enjoy most of my time being outdoors. In the winter,I enjoy riding bikes.</p>
-          <p class="mb-0">When forced indoors, I follow a number of sci-fi and fantasy genre movies and television shows, and I spend a large amount of my free time exploring the latest technology advancements.</p>
-        </div>
-      </section>
+      lines.forEach((text) => {
+        if (text === '') {
+          y += lineHeight * 0.6;
+        } else {
+          wrapAndDraw('• ' + text);
+        }
+      });
 
-      <hr class="m-0">
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      const geo = new THREE.PlaneGeometry(3, 3.9);
+      const mat = new THREE.MeshStandardMaterial({
+        map: texture,
+        side: THREE.DoubleSide,
+        roughness: 0.5,
+        metalness: 0.1
+      });
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
-        <div class="my-auto">
-          <h2 class="mb-5">Awards &amp; Certifications</h2>
-          <ul class="fa-ul mb-0">
-            <li>
-              <i class="fa-li fa fa-trophy text-warning"></i>
-              AWS Cloud Practitioner Certified</li>
-            <li>
-              <i class="fa-li fa fa-trophy text-warning"></i>
-              Stellar Award: Awarded by Virtusa for excellent performance.</li>
-          </ul>
-        </div>
-      </section>
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.userData.isPanel = true;
+      return mesh;
+    }
 
-    </div>
+    const panelsGroup = new THREE.Group();
+    scene.add(panelsGroup);
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    // === Panels Content (using your real resume) ===
 
-    <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    const summaryPanel = createTextPanel({
+      title: 'Summary',
+      lines: [
+        'Cloud, DevOps, and SRE professional with 7+ years of experience in highly available, scalable, fault-tolerant systems.',
+        'Hands-on with Azure, GCP, AWS, Kubernetes, Docker, Helm, Terraform, and GitOps.',
+        'Strong focus on DevSecOps, observability, and automation to improve reliability and developer productivity.',
+        ''
+      ]
+    });
 
-    <!-- Custom scripts for this template -->
-    <script src="js/resume.min.js"></script>
+    const skillsPanel = createTextPanel({
+      title: 'Key Skills',
+      lines: [
+        'Cloud: Azure, AWS, GCP, Terraform Cloud.',
+        'Kubernetes, Docker, OpenShift, Helm.',
+        'IaC: Terraform, Terragrunt, ARM, CloudFormation.',
+        'CI/CD: Jenkins, GitHub Actions, Azure Pipelines, ArgoCD.',
+        'Monitoring: Datadog, Grafana, Prometheus.',
+        'Languages: JavaScript, Python, Go, Shell, PowerShell.',
+        'Security, governance, and cost optimization in multi-cloud.'
+      ]
+    });
 
-  </body>
+    const experiencePanel = createTextPanel({
+      title: 'Experience Highlight',
+      lines: [
+        'Lead DevSecOps Engineer · DTCC (Abu Dhabi)',
+        'Managed Token Factory & Besu blockchain on AKS with 99.9% uptime.',
+        'Built multi-cloud IaC with Terraform/Terragrunt across Azure & GCP.',
+        'Implemented Azure DevOps pipelines, cutting deployment time by ~40%.',
+        '',
+        'Senior Technology Engineer – Platform · Emirates NBD',
+        'Managed OpenShift, ArgoCD, Azure OpenAI and observability stacks.',
+        'Enabled GenAI workloads and GitOps-based delivery for digital teams.',
+        '',
+        'Cloud Architect / SRE Lead · Avaya',
+        'Designed HA cloud environments and automated infra with Terraform & Ansible.',
+        'Owned 150+ Terraform workspaces and Datadog monitoring for critical services.'
+      ]
+    });
 
+    const certsPanel = createTextPanel({
+      title: 'Certifications & Links',
+      lines: [
+        'HashiCorp Certified: Terraform Associate.',
+        'Certified Kubernetes Application Developer (CKAD).',
+        'Azure: Solution Architect, Security Engineer, Cybersecurity Architect.',
+        'AWS Cloud Practitioner.',
+        '',
+        'GitHub: github.com/<your-github-username>',
+        'YouTube: @build_automate',
+        'Instagram: @build.automate.io',
+        'LinkedIn: /in/vijaydaswani11'
+      ]
+    });
+
+    summaryPanel.position.set(0, 1.6, 0);
+    skillsPanel.position.set(-3.8, 1.2, -1.5);
+    experiencePanel.position.set(3.8, 1.2, -1.5);
+    certsPanel.position.set(0, -1.0, -2.5);
+
+    skillsPanel.rotation.y = 0.5;
+    experiencePanel.rotation.y = -0.5;
+    certsPanel.rotation.x = 0.2;
+
+    panelsGroup.add(summaryPanel, skillsPanel, experiencePanel, certsPanel);
+
+    // Floating ring under panels
+    const ringGeo = new THREE.RingGeometry(2.8, 3.2, 64);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.35
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.y = -0.4;
+    scene.add(ring);
+
+    // Raycaster for panel "focus" on click
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+
+    let focusedPanel = null;
+
+    function onPointerDown(event) {
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(pointer, camera);
+      const intersects = raycaster.intersectObjects(panelsGroup.children);
+
+      if (intersects.length > 0) {
+        const panel = intersects[0].object;
+        focusedPanel = panel;
+
+        // Smoothly move controls target to clicked panel
+        const target = panel.position.clone();
+        const startTarget = controls.target.clone();
+        let t = 0;
+        const duration = 0.25;
+
+        function animateFocus() {
+          t += 0.02;
+          const k = Math.min(1, t / duration);
+          controls.target.lerpVectors(startTarget, target, k);
+          if (k < 1) requestAnimationFrame(animateFocus);
+        }
+        animateFocus();
+      }
+    }
+    window.addEventListener('pointerdown', onPointerDown);
+
+    // Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Animation loop
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+
+      panelsGroup.rotation.y = Math.sin(elapsed * 0.15) * 0.08;
+      ring.scale.setScalar(1 + Math.sin(elapsed * 1.2) * 0.03);
+      stars.rotation.y += 0.0008;
+
+      if (focusedPanel) {
+        const desiredDistance = 6;
+        const dir = new THREE.Vector3()
+          .subVectors(camera.position, controls.target)
+          .normalize();
+        const desiredPos = controls.target.clone().add(dir.multiplyScalar(desiredDistance));
+        camera.position.lerp(desiredPos, 0.05);
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
 </html>
