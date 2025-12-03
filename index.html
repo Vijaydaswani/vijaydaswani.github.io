@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Vijay Daswani — 3D Resume</title>
+  <title>Vijay Daswani</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     html, body {
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background: radial-gradient(circle at top, #020617 0, #020617 40%, #000000 100%);
+      background: #000000;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: #ffffff;
     }
@@ -25,19 +25,19 @@
       left: 12px;
       padding: 10px 16px;
       border-radius: 14px;
-      background: rgba(3, 7, 18, 0.7);
-      backdrop-filter: blur(14px);
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(16px);
       font-size: 12px;
       line-height: 1.4;
       border: 1px solid rgba(148, 163, 184, 0.4);
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.7);
-      max-width: min(480px, 85vw);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9);
+      max-width: min(480px, 88vw);
     }
 
     .overlay-header .name {
       font-weight: 800;
-      font-size: 16px;
-      letter-spacing: 0.03em;
+      font-size: 18px;
+      letter-spacing: 0.04em;
     }
 
     .overlay-header .title {
@@ -47,7 +47,7 @@
     .overlay-header .tagline {
       margin-top: 6px;
       font-size: 11px;
-      opacity: 0.8;
+      opacity: 0.85;
     }
 
     .social-links {
@@ -60,19 +60,19 @@
       gap: 8px;
       padding: 8px 14px;
       border-radius: 999px;
-      background: rgba(3, 7, 18, 0.8);
-      backdrop-filter: blur(18px);
-      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(75, 85, 99, 0.7);
       font-size: 11px;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.7);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.95);
     }
 
     .social-links a {
-      color: #9cd1ff;
+      color: #a5b4fc;
       text-decoration: none;
       padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
+      border: 1px solid rgba(129, 140, 248, 0.6);
       transition:
         background 0.18s ease,
         color 0.18s ease,
@@ -82,10 +82,10 @@
     }
 
     .social-links a:hover {
-      background: #9cd1ff;
+      background: #a5b4fc;
       color: #020617;
       transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(148, 163, 184, 0.5);
+      box-shadow: 0 6px 18px rgba(129, 140, 248, 0.7);
     }
 
     .hint {
@@ -93,11 +93,11 @@
       right: 10px;
       bottom: 10px;
       font-size: 10px;
-      opacity: 0.75;
-      background: rgba(15, 23, 42, 0.85);
+      opacity: 0.8;
+      background: rgba(0, 0, 0, 0.9);
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
+      border: 1px solid rgba(75, 85, 99, 0.9);
     }
 
     .badge {
@@ -107,13 +107,14 @@
       font-size: 10px;
       padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(56, 189, 248, 0.5);
-      color: #7dd3fc;
-      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(96, 165, 250, 0.9);
+      color: #bfdbfe;
+      backdrop-filter: blur(12px);
       display: flex;
       align-items: center;
       gap: 6px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 1);
     }
 
     .badge-dot {
@@ -121,7 +122,7 @@
       height: 6px;
       border-radius: 999px;
       background: #22c55e;
-      box-shadow: 0 0 12px #22c55e;
+      box-shadow: 0 0 10px #22c55e;
     }
 
     @media (max-width: 600px) {
@@ -141,18 +142,21 @@
 <body>
   <div id="canvas-container"></div>
 
-  <!-- Top-left info -->
+  <!-- Top-left 2D header -->
   <div class="overlay-header">
     <div class="name">Vijay Daswani</div>
-    <div class="title">Cloud Architect · Lead DevSecOps · SRE</div>
+    <div class="title">Lead DevSecOps · Cloud / SRE · Blockchain Infra</div>
     <div class="title">Dubai, UAE · vijay.daswani@gmail.com · +971 50 993 0472</div>
-    <div class="tagline">Designing reliable cloud, Kubernetes & blockchain platforms · Automating everything with DevSecOps.</div>
+    <div class="tagline">
+      Multi-cloud (Azure · GCP · a bit of AWS), Kubernetes, tokenised assets on Besu,
+      DevSecOps and automation. Also the guy behind Build &amp; Automate on YouTube.
+    </div>
   </div>
 
-  <!-- Top-right live badge -->
+  <!-- Top-right badge -->
   <div class="badge">
     <span class="badge-dot"></span>
-    <span>Interactive 3D Resume · build &amp; automate</span>
+    <span>3D Resume · DevOps · AI · Blockchain</span>
   </div>
 
   <!-- Bottom center social links -->
@@ -175,7 +179,7 @@
     Drag to rotate · Scroll to zoom · Tap cards to focus
   </div>
 
-  <!-- ⭐ IMPORT MAP FIX ⭐ -->
+  <!-- IMPORT MAP so OrbitControls can "import 'three'" -->
   <script type="importmap">
   {
     "imports": {
@@ -184,17 +188,14 @@
   }
   </script>
 
-  <!-- MAIN MODULE CODE -->
   <script type="module">
     import * as THREE from "three";
     import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
-    console.log("THREE Loaded:", THREE.REVISION);
-
     const container = document.getElementById("canvas-container");
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x020617, 10, 30);
+    scene.background = new THREE.Color(0x000000);
 
     const camera = new THREE.PerspectiveCamera(
       45,
@@ -202,9 +203,9 @@
       0.1,
       100
     );
-    camera.position.set(0, 2.8, 10);
+    camera.position.set(0, 2.3, 8);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputEncoding = THREE.sRGBEncoding;
@@ -213,99 +214,108 @@
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
-    controls.minDistance = 5;
-    controls.maxDistance = 18;
-    controls.target.set(0, 1.6, 0);
+    controls.minDistance = 4.5;
+    controls.maxDistance = 15;
+    controls.target.set(0, 1.7, 0);
 
-    // Lights
-    const ambient = new THREE.AmbientLight(0xffffff, 0.55);
+    // Lights - cool neon feel
+    const ambient = new THREE.AmbientLight(0xffffff, 0.35);
     scene.add(ambient);
 
-    const keyLight = new THREE.DirectionalLight(0x9cd1ff, 1.2);
-    keyLight.position.set(4, 8, 5);
-    scene.add(keyLight);
+    const blueLight = new THREE.DirectionalLight(0x3b82f6, 1.4);
+    blueLight.position.set(4, 6, 4);
+    scene.add(blueLight);
 
-    const rimLight = new THREE.PointLight(0x00ffff, 0.9, 30);
-    rimLight.position.set(-5, 3, -4);
-    scene.add(rimLight);
+    const purpleLight = new THREE.PointLight(0xa855f7, 1.5, 40);
+    purpleLight.position.set(-4, 2.5, -3);
+    scene.add(purpleLight);
 
     // Starfield
     const starGeo = new THREE.BufferGeometry();
-    const starCount = 600;
+    const starCount = 500;
     const starPositions = new Float32Array(starCount * 3);
     for (let i = 0; i < starCount * 3; i += 3) {
-      starPositions[i] = (Math.random() - 0.5) * 60;
-      starPositions[i + 1] = Math.random() * 30;
-      starPositions[i + 2] = (Math.random() - 0.5) * 60;
+      starPositions[i] = (Math.random() - 0.5) * 40;
+      starPositions[i + 1] = Math.random() * 20 + 1;
+      starPositions[i + 2] = (Math.random() - 0.5) * 40;
     }
     starGeo.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
-    const starMat = new THREE.PointsMaterial({ size: 0.06, color: 0x7dd3fc });
+    const starMat = new THREE.PointsMaterial({ size: 0.06, color: 0x6366f1 });
     const stars = new THREE.Points(starGeo, starMat);
     scene.add(stars);
 
-    // Core
-    const coreGeo = new THREE.SphereGeometry(0.7, 48, 48);
+    // Central neon "core"
+    const coreGeo = new THREE.DodecahedronGeometry(0.8);
     const coreMat = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
-      emissive: 0x0ea5e9,
-      emissiveIntensity: 1.4,
-      roughness: 0.2,
-      metalness: 0.6
+      color: 0x0ea5e9,
+      emissive: 0x22c55e,
+      emissiveIntensity: 1.6,
+      roughness: 0.1,
+      metalness: 0.8
     });
     const core = new THREE.Mesh(coreGeo, coreMat);
-    core.position.set(0, 1.6, 0);
+    core.position.set(0, 1.7, 0);
     scene.add(core);
 
-    const haloGeo = new THREE.RingGeometry(1.0, 1.4, 64);
-    const haloMat = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
+    const coreHaloGeo = new THREE.RingGeometry(1.1, 1.5, 64);
+    const coreHaloMat = new THREE.MeshBasicMaterial({
+      color: 0x22c55e,
       transparent: true,
       opacity: 0.35,
       side: THREE.DoubleSide
     });
-    const halo = new THREE.Mesh(haloGeo, haloMat);
-    halo.rotation.x = -Math.PI / 2;
-    halo.position.y = 1.02;
-    scene.add(halo);
+    const coreHalo = new THREE.Mesh(coreHaloGeo, coreHaloMat);
+    coreHalo.rotation.x = -Math.PI / 2;
+    coreHalo.position.y = 1.1;
+    scene.add(coreHalo);
 
-    // Ring
-    const ringGeo = new THREE.RingGeometry(3.1, 3.5, 72);
+    // Ground ring for vibe
+    const ringGeo = new THREE.RingGeometry(3.4, 3.9, 72);
     const ringMat = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
+      color: 0x1d4ed8,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.35
+      opacity: 0.30
     });
     const ring = new THREE.Mesh(ringGeo, ringMat);
     ring.rotation.x = -Math.PI / 2;
-    ring.position.y = -0.2;
+    ring.position.y = -0.1;
     scene.add(ring);
 
-    // Helper to build text panels
-    function createTextPanel({ title, lines, accent = "#38bdf8" }) {
-      const width = 700;
-      const height = 900;
+    // Utility: create 3D text cards using canvas
+    function createTextCard({ title, lines, accent = "#22c55e", wide = false }) {
+      const width = wide ? 900 : 700;
+      const height = wide ? 600 : 840;
       const canvas = document.createElement("canvas");
       canvas.width = width;
       canvas.height = height;
       const ctx = canvas.getContext("2d");
 
-      ctx.fillStyle = "#020617";
+      // Background gradient
+      const grad = ctx.createLinearGradient(0, 0, width, height);
+      grad.addColorStop(0, "#020617");
+      grad.addColorStop(1, "#020617");
+      ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);
 
+      // Outer border with glow
       ctx.save();
       ctx.shadowColor = accent;
-      ctx.shadowBlur = 22;
-      ctx.strokeStyle = "rgba(148, 163, 184, 0.7)";
+      ctx.shadowBlur = 26;
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.9)";
       ctx.lineWidth = 4;
       ctx.strokeRect(18, 18, width - 36, height - 36);
       ctx.restore();
 
-      ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
+      // Title bar
+      ctx.fillStyle = "rgba(0,0,0,0.85)";
       ctx.strokeStyle = "rgba(148, 163, 184, 0.9)";
       ctx.lineWidth = 2;
-
-      const pillX = 36, pillY = 30, pillW = width - 72, pillH = 64, r = 18;
+      const pillX = 32;
+      const pillY = 30;
+      const pillW = width - 64;
+      const pillH = 70;
+      const r = 20;
       ctx.beginPath();
       ctx.moveTo(pillX + r, pillY);
       ctx.lineTo(pillX + pillW - r, pillY);
@@ -320,143 +330,148 @@
       ctx.fill();
       ctx.stroke();
 
+      // Title text
       ctx.fillStyle = "#e5f2ff";
-      ctx.font = "bold 38px system-ui";
+      ctx.font = "600 34px system-ui";
       ctx.textBaseline = "middle";
-      ctx.fillText(title, pillX + 24, pillY + pillH / 2);
+      ctx.fillText(title, pillX + 22, pillY + pillH / 2);
 
-      ctx.strokeStyle = "rgba(51, 65, 85, 0.9)";
+      // Divider
+      ctx.strokeStyle = "rgba(55, 65, 81, 1)";
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(32, 120);
       ctx.lineTo(width - 32, 120);
       ctx.stroke();
 
-      ctx.font = "26px system-ui";
-      ctx.fillStyle = "#e2e8f0";
-      const maxWidth = width - 72;
+      // Body text - bigger for readability
+      ctx.font = "24px system-ui";
+      ctx.fillStyle = "#e5e7eb";
+      const maxWidth = width - 70;
       let y = 140;
-      const lineHeight = 32;
+      const lineHeight = 30;
 
-      function drawWrapped(text) {
-        const words = text.split(" ");
+      function wrap(text, bullet = true) {
+        const prefix = bullet ? "• " : "";
+        const words = (prefix + text).split(" ");
         let line = "";
         for (let n = 0; n < words.length; n++) {
           const test = line + words[n] + " ";
           if (ctx.measureText(test).width > maxWidth && n > 0) {
-            ctx.fillText(line, 36, y);
+            ctx.fillText(line, 32, y);
             y += lineHeight;
             line = words[n] + " ";
           } else {
             line = test;
           }
         }
-        ctx.fillText(line, 36, y);
+        ctx.fillText(line, 32, y);
         y += lineHeight;
       }
 
       lines.forEach((t) => {
-        if (!t) {
-          y += lineHeight;
+        if (t === "") {
+          y += lineHeight * 0.8;
+        } else if (t.startsWith("!")) {
+          // non-bullet line
+          wrap(t.slice(1), false);
         } else {
-          drawWrapped("• " + t);
+          wrap(t, true);
         }
       });
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 
-      const geo = new THREE.PlaneGeometry(3.1, 4.1);
+      const aspect = width / height;
+      const cardHeight = wide ? 2.6 : 3.4;
+      const cardWidth = cardHeight * aspect;
+      const geo = new THREE.PlaneGeometry(cardWidth, cardHeight);
       const mat = new THREE.MeshStandardMaterial({
         map: texture,
         side: THREE.DoubleSide,
         roughness: 0.55,
-        metalness: 0.15
+        metalness: 0.2
       });
 
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.userData.isPanel = true;
       mesh.userData.baseScale = 1;
+      mesh.userData.isCard = true;
       return mesh;
     }
 
-    const panelsGroup = new THREE.Group();
-    scene.add(panelsGroup);
+    const cardsGroup = new THREE.Group();
+    scene.add(cardsGroup);
 
-    const summaryPanel = createTextPanel({
-      title: "Summary",
-      accent: "#38bdf8",
-      lines: [
-        "Cloud, DevOps & SRE professional with 7+ years of experience designing and operating highly available, secure systems.",
-        "Hands-on with Azure, GCP, Kubernetes, Docker, Terraform, GitOps and modern observability stacks.",
-        "Strengths: automation, reliability engineering, cloud-native architectures and DevSecOps for regulated environments."
-      ]
-    });
-
-    const skillsPanel = createTextPanel({
-      title: "Key Skills",
-      accent: "#a855f7",
-      lines: [
-        "Cloud: Azure, GCP, AWS · Terraform Cloud.",
-        "Kubernetes, Docker, OpenShift, Helm, AKS.",
-        "IaC: Terraform, Terragrunt, ARM, CloudFormation.",
-        "CI/CD: Azure DevOps, GitHub Actions, Jenkins, Argo CD.",
-        "Monitoring: Datadog, Grafana, Prometheus, ELK.",
-        "Languages: Python, Go, JS/TS, Shell, PowerShell.",
-        "Security & governance for multi-cloud workloads."
-      ]
-    });
-
-    const experiencePanel = createTextPanel({
-      title: "Experience",
+    // Main "Current Role" wide card
+    const mainCard = createTextCard({
+      title: "Current Role — Lead DevSecOps · DTCC (Digital Assets)",
+      wide: true,
       accent: "#22c55e",
       lines: [
-        "Lead DevSecOps Engineer · DTCC (Abu Dhabi)",
-        "Tokenised assets & blockchain on AKS · Besu validators, Graph Node, IPFS.",
-        "Terraform/Terragrunt IaC · GitOps pipelines · Datadog observability.",
-        "",
-        "Senior Engineer – Emirates NBD",
-        "OpenShift & Azure OpenAI · GitOps · production SRE.",
-        "",
-        "Cloud Architect · Avaya",
-        "HA cloud environments · 150+ Terraform workspaces · Datadog-based SRE."
+        "Owning DevSecOps and SRE for Digital Assets / Token Factory initiatives.",
+        "Designing and operating permissioned blockchain on Azure AKS with Besu validators, RPC nodes, Graph Node and IPFS.",
+        "Multi-cloud IaC with Terraform & Terragrunt across Azure and GCP; modular, reusable and secure patterns.",
+        "Building Azure DevOps pipelines, policy-as-code and observability with Datadog for infra and app workloads.",
+        "Partnering with platform, security and application teams to ship faster without breaking prod."
       ]
     });
 
-    const certsPanel = createTextPanel({
-      title: "Certifications & Links",
+    // Skills / Tools card
+    const skillsCard = createTextCard({
+      title: "Core Skills & Tooling",
+      accent: "#3b82f6",
+      lines: [
+        "Cloud: Azure, GCP and some AWS; VNet design, private endpoints, firewalls, identity and policy.",
+        "Container platforms: AKS, Kubernetes, Docker, OpenShift, Helm; GitOps with Argo CD & Azure DevOps.",
+        "IaC: Terraform, Terragrunt, remote state & pipelines; patterns for environments, workspaces and tenants.",
+        "Observability: Datadog (infra, APM, logs, synthetics), Grafana, Prometheus; SLOs and alerting for reliability.",
+        "Languages & automation: Python, Go, JavaScript/TypeScript, Shell, PowerShell; CI/CD glue and automation scripts."
+      ]
+    });
+
+    // DevOps + Blockchain story card
+    const storyCard = createTextCard({
+      title: "DevOps × Blockchain & AI",
+      accent: "#a855f7",
+      lines: [
+        "Blockchain infra: Enterprise Besu on AKS, validator and RPC nodes, private networking, key management and monitoring.",
+        "Indexing & data: Graph Node, PostgreSQL, IPFS and monitoring around them for tokenised assets use-cases.",
+        "Security: image scanning, IaC checks, policies, secrets management, private containers and zero-trust networking.",
+        "AI & automation: experimenting with AI agents (MCP, sandboxes) to help with Kubernetes, Terraform and code review."
+      ]
+    });
+
+    // Creator / personal brand card
+    const creatorCard = createTextCard({
+      title: "Creator · Build & Automate",
       accent: "#f97316",
       lines: [
-        "HashiCorp Certified: Terraform Associate.",
-        "CKAD · Azure Solution Architect · Azure Security Engineer.",
-        "Azure Cybersecurity Architect · AWS Cloud Practitioner.",
-        "",
-        "GitHub: github.com/vijaydaswani",
-        "YouTube: @build_automate",
-        "Instagram: @build.automate.io",
-        "LinkedIn: /in/vijaydaswani11"
+        "YouTube: Build & Automate — DevOps, AI agents, Kubernetes, Terraform and real-world infra stories with humour.",
+        "Instagram: devops.humor.io & build.automate.io — memes and bite-size tech learning for engineers.",
+        "Long-term goal: make complex infra & security concepts feel simple, fun and practical for engineers in the field.",
+        "!Outside work: gym, experiments with side projects, and planning the next piece of content or crazy infra idea."
       ]
     });
 
-    const radius = 4.8;
-    const height = 1.6;
+    // Position cards
+    mainCard.position.set(0, 1.7, -2.2);
+    skillsCard.position.set(-3.6, 1.4, 1.2);
+    storyCard.position.set(3.6, 1.4, 1.2);
+    creatorCard.position.set(0, -0.2, 2.8);
 
-    summaryPanel.position.set(0, height + 0.3, -radius + 0.5);
-    skillsPanel.position.set(-radius, height - 0.4, 0.6);
-    experiencePanel.position.set(radius, height - 0.4, 0.6);
-    certsPanel.position.set(0, height - 1.0, radius - 0.6);
+    mainCard.lookAt(camera.position.x, 1.7, camera.position.z);
+    skillsCard.lookAt(core.position);
+    storyCard.lookAt(core.position);
+    creatorCard.lookAt(core.position);
 
-    summaryPanel.lookAt(core.position);
-    skillsPanel.lookAt(core.position);
-    experiencePanel.lookAt(core.position);
-    certsPanel.lookAt(core.position);
+    cardsGroup.add(mainCard, skillsCard, storyCard, creatorCard);
 
-    panelsGroup.add(summaryPanel, skillsPanel, experiencePanel, certsPanel);
-
+    // Raycaster for hover/focus
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2(2, 2);
-    let hoveredPanel = null;
-    let focusedPanel = null;
+    let hoveredCard = null;
+    let focusedCard = mainCard; // default focus: your main role
 
     function onPointerMove(e) {
       const rect = renderer.domElement.getBoundingClientRect();
@@ -469,8 +484,10 @@
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera({ x, y }, camera);
-      const hits = raycaster.intersectObjects(panelsGroup.children);
-      if (hits.length > 0) focusedPanel = hits[0].object;
+      const hits = raycaster.intersectObjects(cardsGroup.children);
+      if (hits.length > 0) {
+        focusedCard = hits[0].object;
+      }
     }
 
     window.addEventListener("pointermove", onPointerMove);
@@ -488,45 +505,48 @@
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      panelsGroup.rotation.y = Math.sin(t * 0.12) * 0.12;
-      core.scale.setScalar(1 + Math.sin(t * 1.6) * 0.08);
-      halo.rotation.z = t * 0.3;
-      ring.scale.setScalar(1 + Math.sin(t * 1.1) * 0.04);
+      // subtle motions
+      stars.rotation.y += 0.0006;
+      stars.rotation.x += 0.0002;
 
-      stars.rotation.y += 0.0008;
-      stars.rotation.x += 0.0003;
+      core.rotation.y += 0.4 * clock.getDelta();
+      coreHalo.rotation.z = t * 0.4;
+      ring.scale.setScalar(1 + Math.sin(t * 1.3) * 0.04);
 
-      raycaster.setFromCamera(pointer, camera);
-      const hit = raycaster.intersectObjects(panelsGroup.children);
-      const newHovered = hit.length > 0 ? hit[0].object : null;
-
-      if (hoveredPanel !== newHovered) {
-        if (hoveredPanel) hoveredPanel.scale.setScalar(1);
-        hoveredPanel = newHovered;
-        if (hoveredPanel) hoveredPanel.scale.setScalar(1.06);
-      }
-
-      panelsGroup.children.forEach((panel, i) => {
-        const phase = i * Math.PI * 0.6;
-        const floatY = Math.sin(t * 0.9 + phase) * 0.08;
-        const targetY =
-          height + (i === 0 ? 0.3 : i === 3 ? -1.0 : -0.4) + floatY;
-        panel.position.y += (targetY - panel.position.y) * 0.08;
+      // floating cards
+      cardsGroup.children.forEach((card, i) => {
+        const phase = i * Math.PI * 0.7;
+        const baseY = i === 3 ? -0.2 : i === 0 ? 1.7 : 1.4;
+        const float = Math.sin(t * 0.9 + phase) * 0.12;
+        card.position.y += (baseY + float - card.position.y) * 0.1;
       });
 
-      if (focusedPanel) {
-        const dir = new THREE.Vector3()
-          .subVectors(core.position, focusedPanel.position)
-          .normalize()
-          .multiplyScalar(-1);
-        const focusPoint = focusedPanel.position.clone().add(dir.multiplyScalar(0.6));
-        controls.target.lerp(focusPoint, 0.06);
+      // hover effect
+      raycaster.setFromCamera(pointer, camera);
+      const hits = raycaster.intersectObjects(cardsGroup.children);
+      const newHovered = hits.length > 0 ? hits[0].object : null;
 
-        const desiredDistance = 7;
+      if (hoveredCard !== newHovered) {
+        if (hoveredCard) hoveredCard.scale.setScalar(hoveredCard.userData.baseScale);
+        hoveredCard = newHovered;
+        if (hoveredCard) hoveredCard.scale.setScalar(1.05);
+      }
+
+      // focus camera towards selected card
+      if (focusedCard) {
+        const focusPos = focusedCard.position.clone();
+        const offsetDir = new THREE.Vector3()
+          .subVectors(focusPos, core.position)
+          .normalize()
+          .multiplyScalar(1.4);
+        const target = focusPos.clone().add(offsetDir.multiplyScalar(0.2));
+        controls.target.lerp(target, 0.06);
+
+        const desiredDist = 7.0;
         const camDir = new THREE.Vector3()
           .subVectors(camera.position, controls.target)
           .normalize();
-        const desiredPos = controls.target.clone().add(camDir.multiplyScalar(desiredDistance));
+        const desiredPos = controls.target.clone().add(camDir.multiplyScalar(desiredDist));
         camera.position.lerp(desiredPos, 0.05);
       }
 
@@ -536,6 +556,5 @@
 
     animate();
   </script>
-
 </body>
 </html>
