@@ -175,9 +175,21 @@
     Drag to rotate · Scroll to zoom · Tap cards to focus
   </div>
 
+  <!-- ⭐ IMPORT MAP FIX ⭐ -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
+
+  <!-- MAIN MODULE CODE -->
   <script type="module">
-    import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+    import * as THREE from "three";
     import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+    console.log("THREE Loaded:", THREE.REVISION);
 
     const container = document.getElementById("canvas-container");
 
@@ -231,7 +243,7 @@
     const stars = new THREE.Points(starGeo, starMat);
     scene.add(stars);
 
-    // Central glowing "core"
+    // Core
     const coreGeo = new THREE.SphereGeometry(0.7, 48, 48);
     const coreMat = new THREE.MeshStandardMaterial({
       color: 0x38bdf8,
@@ -244,7 +256,6 @@
     core.position.set(0, 1.6, 0);
     scene.add(core);
 
-    // Subtle halo around core
     const haloGeo = new THREE.RingGeometry(1.0, 1.4, 64);
     const haloMat = new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
@@ -257,7 +268,7 @@
     halo.position.y = 1.02;
     scene.add(halo);
 
-    // Ground ring under panels
+    // Ring
     const ringGeo = new THREE.RingGeometry(3.1, 3.5, 72);
     const ringMat = new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
@@ -270,7 +281,7 @@
     ring.position.y = -0.2;
     scene.add(ring);
 
-    // Helper to create text panels with canvas
+    // Helper to build text panels
     function createTextPanel({ title, lines, accent = "#38bdf8" }) {
       const width = 700;
       const height = 900;
@@ -279,14 +290,9 @@
       canvas.height = height;
       const ctx = canvas.getContext("2d");
 
-      // Background
-      const gradient = ctx.createLinearGradient(0, 0, width, height);
-      gradient.addColorStop(0, "#020617");
-      gradient.addColorStop(1, "#020617");
-      ctx.fillStyle = gradient;
+      ctx.fillStyle = "#020617";
       ctx.fillRect(0, 0, width, height);
 
-      // Accent glow border
       ctx.save();
       ctx.shadowColor = accent;
       ctx.shadowBlur = 22;
@@ -295,15 +301,11 @@
       ctx.strokeRect(18, 18, width - 36, height - 36);
       ctx.restore();
 
-      // Header pill
       ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
       ctx.strokeStyle = "rgba(148, 163, 184, 0.9)";
       ctx.lineWidth = 2;
-      const pillX = 36;
-      const pillY = 30;
-      const pillW = width - 72;
-      const pillH = 64;
-      const r = 18;
+
+      const pillX = 36, pillY = 30, pillW = width - 72, pillH = 64, r = 18;
       ctx.beginPath();
       ctx.moveTo(pillX + r, pillY);
       ctx.lineTo(pillX + pillW - r, pillY);
@@ -318,13 +320,11 @@
       ctx.fill();
       ctx.stroke();
 
-      // Title text
       ctx.fillStyle = "#e5f2ff";
       ctx.font = "bold 38px system-ui";
       ctx.textBaseline = "middle";
       ctx.fillText(title, pillX + 24, pillY + pillH / 2);
 
-      // Divider
       ctx.strokeStyle = "rgba(51, 65, 85, 0.9)";
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -332,37 +332,34 @@
       ctx.lineTo(width - 32, 120);
       ctx.stroke();
 
-      // Body
       ctx.font = "26px system-ui";
       ctx.fillStyle = "#e2e8f0";
-
       const maxWidth = width - 72;
       let y = 140;
       const lineHeight = 32;
 
-      function wrapAndDraw(text) {
+      function drawWrapped(text) {
         const words = text.split(" ");
         let line = "";
         for (let n = 0; n < words.length; n++) {
-          const testLine = line + words[n] + " ";
-          const metrics = ctx.measureText(testLine);
-          if (metrics.width > maxWidth && n > 0) {
+          const test = line + words[n] + " ";
+          if (ctx.measureText(test).width > maxWidth && n > 0) {
             ctx.fillText(line, 36, y);
-            line = words[n] + " ";
             y += lineHeight;
+            line = words[n] + " ";
           } else {
-            line = testLine;
+            line = test;
           }
         }
         ctx.fillText(line, 36, y);
         y += lineHeight;
       }
 
-      lines.forEach((text) => {
-        if (text === "") {
-          y += lineHeight * 0.6;
+      lines.forEach((t) => {
+        if (!t) {
+          y += lineHeight;
         } else {
-          wrapAndDraw("• " + text);
+          drawWrapped("• " + t);
         }
       });
 
@@ -379,7 +376,6 @@
 
       const mesh = new THREE.Mesh(geo, mat);
       mesh.userData.isPanel = true;
-      mesh.userData.accent = accent;
       mesh.userData.baseScale = 1;
       return mesh;
     }
@@ -387,7 +383,6 @@
     const panelsGroup = new THREE.Group();
     scene.add(panelsGroup);
 
-    // Panels content
     const summaryPanel = createTextPanel({
       title: "Summary",
       accent: "#38bdf8",
@@ -407,8 +402,8 @@
         "IaC: Terraform, Terragrunt, ARM, CloudFormation.",
         "CI/CD: Azure DevOps, GitHub Actions, Jenkins, Argo CD.",
         "Monitoring: Datadog, Grafana, Prometheus, ELK.",
-        "Languages: Python, Go, JavaScript/TypeScript, Shell, PowerShell.",
-        "Security, governance & cost optimisation for multi-cloud workloads."
+        "Languages: Python, Go, JS/TS, Shell, PowerShell.",
+        "Security & governance for multi-cloud workloads."
       ]
     });
 
@@ -418,13 +413,13 @@
       lines: [
         "Lead DevSecOps Engineer · DTCC (Abu Dhabi)",
         "Tokenised assets & blockchain on AKS · Besu validators, Graph Node, IPFS.",
-        "End-to-end Terraform/Terragrunt IaC · GitOps pipelines · Datadog observability.",
+        "Terraform/Terragrunt IaC · GitOps pipelines · Datadog observability.",
         "",
-        "Senior Technology Engineer – Platform · Emirates NBD",
-        "OpenShift & Azure OpenAI platforms · GitOps delivery · production SRE.",
+        "Senior Engineer – Emirates NBD",
+        "OpenShift & Azure OpenAI · GitOps · production SRE.",
         "",
-        "Cloud Architect / SRE Lead · Avaya",
-        "Designed HA environments · 150+ Terraform workspaces · Datadog-driven SRE."
+        "Cloud Architect · Avaya",
+        "HA cloud environments · 150+ Terraform workspaces · Datadog-based SRE."
       ]
     });
 
@@ -437,15 +432,15 @@
         "Azure Cybersecurity Architect · AWS Cloud Practitioner.",
         "",
         "GitHub: github.com/vijaydaswani",
-        "YouTube: youtube.com/@build_automate",
+        "YouTube: @build_automate",
         "Instagram: @build.automate.io",
-        "LinkedIn: linkedin.com/in/vijaydaswani11"
+        "LinkedIn: /in/vijaydaswani11"
       ]
     });
 
-    // Arrange in orbit around core
     const radius = 4.8;
     const height = 1.6;
+
     summaryPanel.position.set(0, height + 0.3, -radius + 0.5);
     skillsPanel.position.set(-radius, height - 0.4, 0.6);
     experiencePanel.position.set(radius, height - 0.4, 0.6);
@@ -458,32 +453,29 @@
 
     panelsGroup.add(summaryPanel, skillsPanel, experiencePanel, certsPanel);
 
-    // Raycaster for hover + focus
     const raycaster = new THREE.Raycaster();
-    const pointer = new THREE.Vector2(2, 2); // offscreen initial
+    const pointer = new THREE.Vector2(2, 2);
     let hoveredPanel = null;
     let focusedPanel = null;
 
-    function onPointerMove(event) {
+    function onPointerMove(e) {
       const rect = renderer.domElement.getBoundingClientRect();
-      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
     }
-    function onPointerDown(event) {
+
+    function onPointerDown(e) {
       const rect = renderer.domElement.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera({ x, y }, camera);
-      const intersects = raycaster.intersectObjects(panelsGroup.children);
-      if (intersects.length > 0) {
-        focusedPanel = intersects[0].object;
-      }
+      const hits = raycaster.intersectObjects(panelsGroup.children);
+      if (hits.length > 0) focusedPanel = hits[0].object;
     }
 
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerdown", onPointerDown);
 
-    // Resize
     window.addEventListener("resize", () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -496,47 +488,33 @@
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      // Subtle group orbit
       panelsGroup.rotation.y = Math.sin(t * 0.12) * 0.12;
-
-      // Pulse core & halo
-      const pulse = 1 + Math.sin(t * 1.6) * 0.08;
-      core.scale.setScalar(pulse);
+      core.scale.setScalar(1 + Math.sin(t * 1.6) * 0.08);
       halo.rotation.z = t * 0.3;
+      ring.scale.setScalar(1 + Math.sin(t * 1.1) * 0.04);
 
-      // Ground ring breathing
-      const ringScale = 1 + Math.sin(t * 1.1) * 0.04;
-      ring.scale.set(ringScale, ringScale, ringScale);
-
-      // Stars drift
       stars.rotation.y += 0.0008;
       stars.rotation.x += 0.0003;
 
-      // Hover detection
       raycaster.setFromCamera(pointer, camera);
-      const intersects = raycaster.intersectObjects(panelsGroup.children);
-      const newHovered = intersects.length > 0 ? intersects[0].object : null;
+      const hit = raycaster.intersectObjects(panelsGroup.children);
+      const newHovered = hit.length > 0 ? hit[0].object : null;
 
       if (hoveredPanel !== newHovered) {
-        if (hoveredPanel) {
-          hoveredPanel.scale.setScalar(hoveredPanel.userData.baseScale);
-        }
+        if (hoveredPanel) hoveredPanel.scale.setScalar(1);
         hoveredPanel = newHovered;
-        if (hoveredPanel) {
-          hoveredPanel.scale.setScalar(1.06);
-        }
+        if (hoveredPanel) hoveredPanel.scale.setScalar(1.06);
       }
 
-      // Float panels slightly
-      panelsGroup.children.forEach((panel, index) => {
-        const phase = index * Math.PI * 0.6;
+      panelsGroup.children.forEach((panel, i) => {
+        const phase = i * Math.PI * 0.6;
         const floatY = Math.sin(t * 0.9 + phase) * 0.08;
-        panel.position.y += (height + (index === 0 ? 0.3 : index === 3 ? -1.0 : -0.4) + floatY - panel.position.y) * 0.08;
+        const targetY =
+          height + (i === 0 ? 0.3 : i === 3 ? -1.0 : -0.4) + floatY;
+        panel.position.y += (targetY - panel.position.y) * 0.08;
       });
 
-      // Camera focus movement
       if (focusedPanel) {
-        // Move target slightly in front of panel
         const dir = new THREE.Vector3()
           .subVectors(core.position, focusedPanel.position)
           .normalize()
@@ -544,8 +522,7 @@
         const focusPoint = focusedPanel.position.clone().add(dir.multiplyScalar(0.6));
         controls.target.lerp(focusPoint, 0.06);
 
-        // Camera distance
-        const desiredDistance = 7.0;
+        const desiredDistance = 7;
         const camDir = new THREE.Vector3()
           .subVectors(camera.position, controls.target)
           .normalize();
@@ -559,5 +536,6 @@
 
     animate();
   </script>
+
 </body>
 </html>
