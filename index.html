@@ -1,16 +1,563 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Three Test</title>
-  </head>
-  <body>
-    <h1>Three.js Test</h1>
+<head>
+  <meta charset="UTF-8" />
+  <title>Vijay Daswani — 3D Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #020617 0, #020617 40%, #000000 100%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #ffffff;
+    }
 
-    <script type="module">
-      import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+    #canvas-container {
+      position: fixed;
+      inset: 0;
+    }
 
-      console.log("Three revision:", THREE.REVISION);
-    </script>
-  </body>
+    .overlay-header {
+      position: fixed;
+      top: 10px;
+      left: 12px;
+      padding: 10px 16px;
+      border-radius: 14px;
+      background: rgba(3, 7, 18, 0.7);
+      backdrop-filter: blur(14px);
+      font-size: 12px;
+      line-height: 1.4;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.7);
+      max-width: min(480px, 85vw);
+    }
+
+    .overlay-header .name {
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: 0.03em;
+    }
+
+    .overlay-header .title {
+      opacity: 0.9;
+    }
+
+    .overlay-header .tagline {
+      margin-top: 6px;
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    .social-links {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(3, 7, 18, 0.8);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.7);
+    }
+
+    .social-links a {
+      color: #9cd1ff;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .social-links a:hover {
+      background: #9cd1ff;
+      color: #020617;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(148, 163, 184, 0.5);
+    }
+
+    .hint {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+      font-size: 10px;
+      opacity: 0.75;
+      background: rgba(15, 23, 42, 0.85);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .badge {
+      position: fixed;
+      top: 10px;
+      right: 12px;
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: #7dd3fc;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 12px #22c55e;
+    }
+
+    @media (max-width: 600px) {
+      .overlay-header {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .badge {
+        display: none;
+      }
+      .hint {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <!-- Top-left info -->
+  <div class="overlay-header">
+    <div class="name">Vijay Daswani</div>
+    <div class="title">Cloud Architect · Lead DevSecOps · SRE</div>
+    <div class="title">Dubai, UAE · vijay.daswani@gmail.com · +971 50 993 0472</div>
+    <div class="tagline">Designing reliable cloud, Kubernetes & blockchain platforms · Automating everything with DevSecOps.</div>
+  </div>
+
+  <!-- Top-right live badge -->
+  <div class="badge">
+    <span class="badge-dot"></span>
+    <span>Interactive 3D Resume · build &amp; automate</span>
+  </div>
+
+  <!-- Bottom center social links -->
+  <div class="social-links">
+    <a href="https://www.instagram.com/build.automate.io" target="_blank" rel="noopener noreferrer">
+      Instagram · build.automate.io
+    </a>
+    <a href="https://youtube.com/@build_automate" target="_blank" rel="noopener noreferrer">
+      YouTube · Build &amp; Automate
+    </a>
+    <a href="https://www.linkedin.com/in/vijaydaswani11" target="_blank" rel="noopener noreferrer">
+      LinkedIn · vijaydaswani11
+    </a>
+    <a href="https://github.com/vijaydaswani" target="_blank" rel="noopener noreferrer">
+      GitHub · vijaydaswani
+    </a>
+  </div>
+
+  <div class="hint">
+    Drag to rotate · Scroll to zoom · Tap cards to focus
+  </div>
+
+  <script type="module">
+    import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+    import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+    const container = document.getElementById("canvas-container");
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x020617, 10, 30);
+
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+    camera.position.set(0, 2.8, 10);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    container.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.minDistance = 5;
+    controls.maxDistance = 18;
+    controls.target.set(0, 1.6, 0);
+
+    // Lights
+    const ambient = new THREE.AmbientLight(0xffffff, 0.55);
+    scene.add(ambient);
+
+    const keyLight = new THREE.DirectionalLight(0x9cd1ff, 1.2);
+    keyLight.position.set(4, 8, 5);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.PointLight(0x00ffff, 0.9, 30);
+    rimLight.position.set(-5, 3, -4);
+    scene.add(rimLight);
+
+    // Starfield
+    const starGeo = new THREE.BufferGeometry();
+    const starCount = 600;
+    const starPositions = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount * 3; i += 3) {
+      starPositions[i] = (Math.random() - 0.5) * 60;
+      starPositions[i + 1] = Math.random() * 30;
+      starPositions[i + 2] = (Math.random() - 0.5) * 60;
+    }
+    starGeo.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
+    const starMat = new THREE.PointsMaterial({ size: 0.06, color: 0x7dd3fc });
+    const stars = new THREE.Points(starGeo, starMat);
+    scene.add(stars);
+
+    // Central glowing "core"
+    const coreGeo = new THREE.SphereGeometry(0.7, 48, 48);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      emissive: 0x0ea5e9,
+      emissiveIntensity: 1.4,
+      roughness: 0.2,
+      metalness: 0.6
+    });
+    const core = new THREE.Mesh(coreGeo, coreMat);
+    core.position.set(0, 1.6, 0);
+    scene.add(core);
+
+    // Subtle halo around core
+    const haloGeo = new THREE.RingGeometry(1.0, 1.4, 64);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.35,
+      side: THREE.DoubleSide
+    });
+    const halo = new THREE.Mesh(haloGeo, haloMat);
+    halo.rotation.x = -Math.PI / 2;
+    halo.position.y = 1.02;
+    scene.add(halo);
+
+    // Ground ring under panels
+    const ringGeo = new THREE.RingGeometry(3.1, 3.5, 72);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.35
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.y = -0.2;
+    scene.add(ring);
+
+    // Helper to create text panels with canvas
+    function createTextPanel({ title, lines, accent = "#38bdf8" }) {
+      const width = 700;
+      const height = 900;
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+
+      // Background
+      const gradient = ctx.createLinearGradient(0, 0, width, height);
+      gradient.addColorStop(0, "#020617");
+      gradient.addColorStop(1, "#020617");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+
+      // Accent glow border
+      ctx.save();
+      ctx.shadowColor = accent;
+      ctx.shadowBlur = 22;
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.7)";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(18, 18, width - 36, height - 36);
+      ctx.restore();
+
+      // Header pill
+      ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.9)";
+      ctx.lineWidth = 2;
+      const pillX = 36;
+      const pillY = 30;
+      const pillW = width - 72;
+      const pillH = 64;
+      const r = 18;
+      ctx.beginPath();
+      ctx.moveTo(pillX + r, pillY);
+      ctx.lineTo(pillX + pillW - r, pillY);
+      ctx.quadraticCurveTo(pillX + pillW, pillY, pillX + pillW, pillY + r);
+      ctx.lineTo(pillX + pillW, pillY + pillH - r);
+      ctx.quadraticCurveTo(pillX + pillW, pillY + pillH, pillX + pillW - r, pillY + pillH);
+      ctx.lineTo(pillX + r, pillY + pillH);
+      ctx.quadraticCurveTo(pillX, pillY + pillH, pillX, pillY + pillH - r);
+      ctx.lineTo(pillX, pillY + r);
+      ctx.quadraticCurveTo(pillX, pillY, pillX + r, pillY);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Title text
+      ctx.fillStyle = "#e5f2ff";
+      ctx.font = "bold 38px system-ui";
+      ctx.textBaseline = "middle";
+      ctx.fillText(title, pillX + 24, pillY + pillH / 2);
+
+      // Divider
+      ctx.strokeStyle = "rgba(51, 65, 85, 0.9)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(32, 120);
+      ctx.lineTo(width - 32, 120);
+      ctx.stroke();
+
+      // Body
+      ctx.font = "26px system-ui";
+      ctx.fillStyle = "#e2e8f0";
+
+      const maxWidth = width - 72;
+      let y = 140;
+      const lineHeight = 32;
+
+      function wrapAndDraw(text) {
+        const words = text.split(" ");
+        let line = "";
+        for (let n = 0; n < words.length; n++) {
+          const testLine = line + words[n] + " ";
+          const metrics = ctx.measureText(testLine);
+          if (metrics.width > maxWidth && n > 0) {
+            ctx.fillText(line, 36, y);
+            line = words[n] + " ";
+            y += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        ctx.fillText(line, 36, y);
+        y += lineHeight;
+      }
+
+      lines.forEach((text) => {
+        if (text === "") {
+          y += lineHeight * 0.6;
+        } else {
+          wrapAndDraw("• " + text);
+        }
+      });
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
+      const geo = new THREE.PlaneGeometry(3.1, 4.1);
+      const mat = new THREE.MeshStandardMaterial({
+        map: texture,
+        side: THREE.DoubleSide,
+        roughness: 0.55,
+        metalness: 0.15
+      });
+
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.userData.isPanel = true;
+      mesh.userData.accent = accent;
+      mesh.userData.baseScale = 1;
+      return mesh;
+    }
+
+    const panelsGroup = new THREE.Group();
+    scene.add(panelsGroup);
+
+    // Panels content
+    const summaryPanel = createTextPanel({
+      title: "Summary",
+      accent: "#38bdf8",
+      lines: [
+        "Cloud, DevOps & SRE professional with 7+ years of experience designing and operating highly available, secure systems.",
+        "Hands-on with Azure, GCP, Kubernetes, Docker, Terraform, GitOps and modern observability stacks.",
+        "Strengths: automation, reliability engineering, cloud-native architectures and DevSecOps for regulated environments."
+      ]
+    });
+
+    const skillsPanel = createTextPanel({
+      title: "Key Skills",
+      accent: "#a855f7",
+      lines: [
+        "Cloud: Azure, GCP, AWS · Terraform Cloud.",
+        "Kubernetes, Docker, OpenShift, Helm, AKS.",
+        "IaC: Terraform, Terragrunt, ARM, CloudFormation.",
+        "CI/CD: Azure DevOps, GitHub Actions, Jenkins, Argo CD.",
+        "Monitoring: Datadog, Grafana, Prometheus, ELK.",
+        "Languages: Python, Go, JavaScript/TypeScript, Shell, PowerShell.",
+        "Security, governance & cost optimisation for multi-cloud workloads."
+      ]
+    });
+
+    const experiencePanel = createTextPanel({
+      title: "Experience",
+      accent: "#22c55e",
+      lines: [
+        "Lead DevSecOps Engineer · DTCC (Abu Dhabi)",
+        "Tokenised assets & blockchain on AKS · Besu validators, Graph Node, IPFS.",
+        "End-to-end Terraform/Terragrunt IaC · GitOps pipelines · Datadog observability.",
+        "",
+        "Senior Technology Engineer – Platform · Emirates NBD",
+        "OpenShift & Azure OpenAI platforms · GitOps delivery · production SRE.",
+        "",
+        "Cloud Architect / SRE Lead · Avaya",
+        "Designed HA environments · 150+ Terraform workspaces · Datadog-driven SRE."
+      ]
+    });
+
+    const certsPanel = createTextPanel({
+      title: "Certifications & Links",
+      accent: "#f97316",
+      lines: [
+        "HashiCorp Certified: Terraform Associate.",
+        "CKAD · Azure Solution Architect · Azure Security Engineer.",
+        "Azure Cybersecurity Architect · AWS Cloud Practitioner.",
+        "",
+        "GitHub: github.com/vijaydaswani",
+        "YouTube: youtube.com/@build_automate",
+        "Instagram: @build.automate.io",
+        "LinkedIn: linkedin.com/in/vijaydaswani11"
+      ]
+    });
+
+    // Arrange in orbit around core
+    const radius = 4.8;
+    const height = 1.6;
+    summaryPanel.position.set(0, height + 0.3, -radius + 0.5);
+    skillsPanel.position.set(-radius, height - 0.4, 0.6);
+    experiencePanel.position.set(radius, height - 0.4, 0.6);
+    certsPanel.position.set(0, height - 1.0, radius - 0.6);
+
+    summaryPanel.lookAt(core.position);
+    skillsPanel.lookAt(core.position);
+    experiencePanel.lookAt(core.position);
+    certsPanel.lookAt(core.position);
+
+    panelsGroup.add(summaryPanel, skillsPanel, experiencePanel, certsPanel);
+
+    // Raycaster for hover + focus
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2(2, 2); // offscreen initial
+    let hoveredPanel = null;
+    let focusedPanel = null;
+
+    function onPointerMove(event) {
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    }
+    function onPointerDown(event) {
+      const rect = renderer.domElement.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera({ x, y }, camera);
+      const intersects = raycaster.intersectObjects(panelsGroup.children);
+      if (intersects.length > 0) {
+        focusedPanel = intersects[0].object;
+      }
+    }
+
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerdown", onPointerDown);
+
+    // Resize
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      // Subtle group orbit
+      panelsGroup.rotation.y = Math.sin(t * 0.12) * 0.12;
+
+      // Pulse core & halo
+      const pulse = 1 + Math.sin(t * 1.6) * 0.08;
+      core.scale.setScalar(pulse);
+      halo.rotation.z = t * 0.3;
+
+      // Ground ring breathing
+      const ringScale = 1 + Math.sin(t * 1.1) * 0.04;
+      ring.scale.set(ringScale, ringScale, ringScale);
+
+      // Stars drift
+      stars.rotation.y += 0.0008;
+      stars.rotation.x += 0.0003;
+
+      // Hover detection
+      raycaster.setFromCamera(pointer, camera);
+      const intersects = raycaster.intersectObjects(panelsGroup.children);
+      const newHovered = intersects.length > 0 ? intersects[0].object : null;
+
+      if (hoveredPanel !== newHovered) {
+        if (hoveredPanel) {
+          hoveredPanel.scale.setScalar(hoveredPanel.userData.baseScale);
+        }
+        hoveredPanel = newHovered;
+        if (hoveredPanel) {
+          hoveredPanel.scale.setScalar(1.06);
+        }
+      }
+
+      // Float panels slightly
+      panelsGroup.children.forEach((panel, index) => {
+        const phase = index * Math.PI * 0.6;
+        const floatY = Math.sin(t * 0.9 + phase) * 0.08;
+        panel.position.y += (height + (index === 0 ? 0.3 : index === 3 ? -1.0 : -0.4) + floatY - panel.position.y) * 0.08;
+      });
+
+      // Camera focus movement
+      if (focusedPanel) {
+        // Move target slightly in front of panel
+        const dir = new THREE.Vector3()
+          .subVectors(core.position, focusedPanel.position)
+          .normalize()
+          .multiplyScalar(-1);
+        const focusPoint = focusedPanel.position.clone().add(dir.multiplyScalar(0.6));
+        controls.target.lerp(focusPoint, 0.06);
+
+        // Camera distance
+        const desiredDistance = 7.0;
+        const camDir = new THREE.Vector3()
+          .subVectors(camera.position, controls.target)
+          .normalize();
+        const desiredPos = controls.target.clone().add(camDir.multiplyScalar(desiredDistance));
+        camera.position.lerp(desiredPos, 0.05);
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
 </html>
